@@ -36,11 +36,10 @@ void selection_sort(int *array, size_t size)
 		for (j = i + 1; j < size; j++)
 			max = (array[j] < *max) ? (array + j) : max;
 
-		if ((array + i) != min)
+		if ((array + i) != max)
 		{
 			swap_ints(array + i, max);
 			print_array(array, size);
 		}
 	}
 }
-
