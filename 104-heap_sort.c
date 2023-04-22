@@ -19,7 +19,7 @@ void swap_ints(int *a, int *b)
 }
 
 /**
- * heapif - Turns a binary tree into a binary heap.
+ * heapify -  Turns a binary tree into a binary heap.
  * @array: An array of integers representing a binary tree.
  * @size: The size of the tree/array.
  * @base: The index of the tree.
