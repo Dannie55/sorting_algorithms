@@ -37,7 +37,7 @@ void heapify(int *array, size_t size, size_t base, size_t root)
 		large = left;
 	if (right < base && array[right] > array[large])
 		large = right;
-	
+
 	if (large != root)
 	{
 		swap_ints(array + root, array + large);
