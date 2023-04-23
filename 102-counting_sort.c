@@ -5,7 +5,7 @@
  * @array: An array of integers.
  * @size: The size of the array.
  *
- * Return: The maximum value of the integer in an array.
+ * Return: The maximum integer in the array.
  */
 int get_max(int *array, int size)
 {
@@ -21,11 +21,12 @@ int get_max(int *array, int size)
 }
 
 /**
- * counting_sort - Sort an array of integers in an ascending order..
+ * counting_sort - Sort an array of integers in ascending order
+ *                 using the counting sort algorithm.
  * @array: An array of integers.
  * @size: The size of the array.
  *
- * Description: Prints the counted array after sorting has been done.
+ * Description: Prints the counting array after setting it up.
  */
 void counting_sort(int *array, size_t size)
 {
@@ -47,7 +48,7 @@ void counting_sort(int *array, size_t size)
 
 	for (i = 0; i < (max + 1); i++)
 		count[i] = 0;
-	for (i = 0 i < (int)size; i++)
+	for (i = 0; i < (int)size; i++)
 		count[array[i]] += 1;
 	for (i = 0; i < (max + 1); i++)
 		count[i] += count[i - 1];
@@ -56,7 +57,7 @@ void counting_sort(int *array, size_t size)
 	for (i = 0; i < (int)size; i++)
 	{
 		sorted[count[array[i]] - 1] = array[i];
-		count[array[i] -= 1;
+		count[array[i]] -= 1;
 	}
 
 	for (i = 0; i < (int)size; i++)
