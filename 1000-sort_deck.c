@@ -2,54 +2,49 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int card_compare(const void *a, const void *b)
+/**
+ * cmp_card - compares two cards
+ * @p1: first card
+ * @p2: second card
+ *
+ * Return: negative if p1 is less than p2, positive if p1 is greater than p2,
+ *         zero if p1 and p2 are equal.
+ */
+int cmp_card(const void *p1, const void *p2)
 {
-    const card_t *ca = (*(const deck_node_t **)a)->card;
-    const card_t *cb = (*(const deck_node_t **)b)->card;
-    int cmp;
+    const card_t *card1 = ((const deck_node_t *)p1)->card;
+    const card_t *card2 = ((const deck_node_t *)p2)->card;
+    int cmp_value, cmp_kind;
 
-    cmp = strcmp(ca->value, cb->value);
-    if (cmp != 0)
-        return cmp;
+    cmp_value = strcmp(card1->value, card2->value);
+    cmp_kind = card1->kind - card2->kind;
 
-    return ca->kind - cb->kind;
+    return cmp_kind ? cmp_kind : cmp_value;
 }
 
+/**
+ * sort_deck - sorts a deck of cards
+ * @deck: deck of cards
+ */
 void sort_deck(deck_node_t **deck)
 {
     size_t i, n = 0;
     deck_node_t *node;
-    deck_node_t **nodes;
 
-    /* Count the number of nodes in the list */
+    if (!deck || !*deck || !(*deck)->next)
+        return;
+
     for (node = *deck; node; node = node->next)
         n++;
 
-    /* Allocate an array of pointers to nodes */
-    nodes = malloc(n * sizeof(*nodes));
-    if (!nodes)
-        return;
+    qsort(*deck, n, sizeof(*node), cmp_card);
 
-    /* Fill the array with pointers to the nodes */
-    i = 0;
-    for (node = *deck; node; node = node->next)
-        nodes[i++] = node;
-
-    /* Sort the array using the card_compare function */
-    qsort(nodes, n, sizeof(*nodes), card_compare);
-
-    /* Relink the nodes according to the sorted array */
-    for (i = 0; i < n - 1; i++) {
-        nodes[i]->next = nodes[i + 1];
-        nodes[i + 1]->prev = nodes[i];
+    (*deck)->prev = NULL;
+    for (node = *deck, i = 0; i < n - 1; node = node->next, i++)
+    {
+        node->next->prev = node;
+        node->prev = node->next;
     }
-    nodes[0]->prev = NULL;
-    nodes[n - 1]->next = NULL;
-
-    /* Update the deck pointer to point to the new head of the list */
-    *deck = nodes[0];
-
-    /* Free the array of pointers to nodes */
-    free(nodes);
+    node->next = NULL;
 }
 
